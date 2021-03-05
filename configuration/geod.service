@@ -1,0 +1,8 @@
+[Unit]
+Description=Seismic signal distribution daemon
+
+[Service]
+ExecStart=/usr/bin/geod
+
+[Install]
+WantedBy=multi-user.target
