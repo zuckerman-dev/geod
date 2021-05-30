@@ -6,7 +6,9 @@ include(GNUInstallDirs)
 
 set(SYSTEMD_UNIT_PATH "/lib/systemd/system/")
 
-find_package(ads1256 CONFIG)
+find_package(adc CONFIG REQUIRED)
+find_package(adc1256 CONFIG REQUIRED)
+
 find_package(cppzmq REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(CLI11 REQUIRED)
