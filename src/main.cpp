@@ -13,7 +13,7 @@
 
 #include <spdlog/spdlog.h>
 
-#include <concurrentqueue/concurrentqueue.h>
+#include <moodycamel/concurrentqueue.h>
 
 #include <adc/ads1256/ADS1256Reader.h>
 
@@ -22,12 +22,11 @@ using namespace moodycamel;
 std::string address{"tcp://0.0.0.0:*"};
 
 std::promise<void> exitSignal;
-ConcurrentQueue<adc::SignalValues> q;
+ConcurrentQueue<adc::SignalData> q;
 
 void Handler(int signo)
 {
     exitSignal.set_value();
-    DEV_ModuleExit();
     exit(0);
 }
 
@@ -76,13 +75,11 @@ int main(int argc, char **argv)
 
         while (true) 
         {
-            adc::SignalValues values;
+            adc::SignalData data;
 
-			if (q.try_dequeue(values)) 
+			if (q.try_dequeue(data)) 
             {
-                // auto [signal0, signal1, signal2] = values;
-
-                std::array<adc::Signal,3> msg_content{std::get<0>(values), std::get<1>(values), std::get<2>(values)};
+                std::array<adc::Signal, reader.channels()> msg_content{data.values[0], data.values[1], data.values[2], data.values[3]};
 
                 // std::cout << std::fixed << msg_content[0] << ","
                 //         << std::fixed << msg_content[1] << ","
