@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 
 			if (q.try_dequeue(data)) 
             {
-                std::array<adc::Signal, reader.channels()> msg_content{data.values[0], data.values[1], data.values[2], data.values[3]};
+                std::array<adc::Signal, 4> msg_content{data.values[0], data.values[1], data.values[2], data.values[3]};
 
                 // std::cout << std::fixed << msg_content[0] << ","
                 //         << std::fixed << msg_content[1] << ","
